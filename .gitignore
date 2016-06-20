@@ -15,7 +15,6 @@
 
 # Fortran module files
 *.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -27,3 +26,35 @@
 *.exe
 *.out
 *.app
+
+# CMake
+*.cbp
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+build/
+
+# Vim
+*.swp
+
+# Doxygen
+doxygen*/
+
+# QT
+*.user
+ui_*.h
+
+# Automatically created Tex Files
+*.aux
+*.log
+*.synctex.gz
+*.pdf
+
+# Doxygen output 
+doc/latex/
+doc/html/
+
+# NetBeans project files
+nbproject/
