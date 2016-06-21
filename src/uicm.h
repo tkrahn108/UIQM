@@ -7,7 +7,7 @@ using namespace cv;
 
 class Uicm{
 public:
-    float calculate (Mat img); 
+    float calculate (Mat img, float alphaL, float alphaR); 
     
 };
 

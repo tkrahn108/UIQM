@@ -2,7 +2,7 @@
 ## General information about the project
 This repository belongs to the project Underwater Image Understanding at the University of Bielefeld in summer term 2016 (SS2016_392167).
 
-One problem with underwater images is that they are often affected by sediment or illumination inconsistencies. In order to avoid that thousands of pictures with low quality have to be viewed by the researchers, I will try to implement an algorithm for automatic image qualitiy assesment to sort images automatically according to their quality. The impelemented algorithm is based on the paper of [Panetta et al.](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7305804 "Panetta et al.: Human-Visual-System-Inspired Underwater Image Quality Measures").
+One problem with underwater images is that they are often affected by sediment or illumination inconsistencies. In order to avoid that thousands of pictures with low quality have to be viewed by the researchers, I will try to implement an algorithm for automatic image qualitiy assesment to sort images automatically according to their quality. The implemented algorithm is based on the paper of [Panetta et al.](http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7305804 "Panetta et al.: Human-Visual-System-Inspired Underwater Image Quality Measures").
 
 ## Repository structure
 * /src: All Header and Source Files of the Project
