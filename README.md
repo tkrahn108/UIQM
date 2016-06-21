@@ -30,4 +30,4 @@ cores for the build process):
 
 Call the Binary to start the Stitching Program:
 
-	./apis-cpp 
+	./UIQM <path_to_images>
