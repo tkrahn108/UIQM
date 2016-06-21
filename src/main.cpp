@@ -55,8 +55,8 @@ int main(int argc, char** argv) {
                 } else {
                     printf("Successfully loaded image:  %s \n", imgPath.c_str());
                     float sum = 0;
-//                    sum += uicm.calculate(image, ALPHAL, ALPHAR);
-                    sum += uism.calculate(image);
+                    sum += uicm.calculate(image, ALPHAL, ALPHAR);
+//                    sum += uism.calculate(image);
                     sum += uiconm.calculate(image);
                     cout << "The value for image " <<  imgPath.c_str() << " is " << sum << endl << endl;
                     

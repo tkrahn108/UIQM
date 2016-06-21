@@ -87,5 +87,7 @@ float Uicm::calculate(Mat img, float alphaL, float alphaR) {
     cout << "Variance YB: " << varianceYB << endl;
 
     //calculate UICM
-    return (-0.0268 * sqrt(pow(meanRG, 2) + pow(meanYB, 2)) + 0.1586 * sqrt(varianceRG + varianceYB));
+    float result = -0.0268 * sqrt(pow(meanRG, 2) + pow(meanYB, 2)) + 0.1586 * sqrt(varianceRG + varianceYB);
+    cout << "UICM: " << result << endl;
+    return result;
 }
