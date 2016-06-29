@@ -5,5 +5,8 @@ using namespace std;
 using namespace cv;
 
 float Uiconm::calculate(Mat img){
-    return 4.0;
+    float result = 4.0F;
+    
+    cout << "UIConM: " << result << endl;
+    return result;
 }

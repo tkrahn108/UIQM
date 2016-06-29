@@ -5,10 +5,12 @@
 
 using namespace cv;
 
-class Uism{
+class Uism {
 public:
-    float calculate (Mat img);    
-    
+    float calculate(Mat img);
+
+private:
+    void findMinMax(Mat img, int xmin, int xmax, int ymin, int ymax, int& min, int& max);
 };
 
 #endif	/* UISM_H */

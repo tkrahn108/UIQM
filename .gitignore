@@ -58,3 +58,8 @@ doc/html/
 
 # NetBeans project files
 nbproject/
+
+# Image files from paper
+img/UISM/
+img/UICM/
+img/paper/
