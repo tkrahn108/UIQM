@@ -91,39 +91,32 @@ float Uism::calculate(Mat img) {
             //... for red-channel
             findMinMax(rGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
             //which logarithmus function do i have to use? log or log10? What to do if max and/or are zero?
-            if (min == 0) {
-                min = 1;
-            }
-            if (max == 0) {
-                max = 1;
-            }
+//            if (min == 0) {
+//                min = 1;
+//            }
+//            if (max == 0) {
+//                max = 1;
+//            }
+            if (!(min == 0 || max == 0))
+            {
             logarithmusValue = ((double) max) / ((double) min);
             sumR += log(logarithmusValue);
-
+            }
             //... for green channel
             findMinMax(gGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
             //which logarithmus function do i have to use? log or log10? What to do if max and/or are zero?
-            if (min == 0) {
-                min = 1;
-            }
-            if (max == 0) {
-                max = 1;
-            }
+            if (!(min == 0 || max == 0)){
             logarithmusValue = ((double) max) / ((double) min);
             sumG += log(logarithmusValue);
-
+            }
+            
             //... for blue channel
             findMinMax(bGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
             //which logarithmus function do i have to use? log or log10? What to do if max and/or are zero?
-            if (min == 0) {
-                min = 1;
-            }
-            if (max == 0) {
-                max = 1;
-            }
+            if (!(min == 0 || max == 0)){
             logarithmusValue = ((double) max) / ((double) min);
             sumB += log(logarithmusValue);
-
+            }
             //            cout << "i: " << i << endl;
             //            cout << "j: " << j << endl;
             //            cout << "min: " << min << endl;
