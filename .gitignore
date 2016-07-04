@@ -58,3 +58,6 @@ doc/html/
 
 # NetBeans project files
 nbproject/
+
+# Image Files
+img/unitestimages/
