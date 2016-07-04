@@ -37,7 +37,8 @@ float Uiconm::calculate(Mat img) {
             }
         }
     }
-    result /= k1 * k2;
+    float c = 1 / ((float) k1 * (float) k2);
+    result = plipMultiplication(c, result);
     cout << "UIConM: " << result << endl;
     return result;
 }
