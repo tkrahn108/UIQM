@@ -11,8 +11,8 @@ float Uicm::calculate(Mat img, float alphaL, float alphaR) {
     int nRows = img.rows;
     int nCols = img.cols;
     int K = nRows * nCols;
-    cout << "nRows: " << nRows << endl;
-    cout << "nCols: " << nCols << endl;
+//    cout << "nRows: " << nRows << endl;
+//    cout << "nCols: " << nCols << endl;
     
     //calculate RG and YB values for the whole image
     std::list<int> rgList;
@@ -40,8 +40,8 @@ float Uicm::calculate(Mat img, float alphaL, float alphaR) {
     int TalphaL = (int) (ceil(K * alphaL));
     int TalphaR = (int) (floor(K * alphaR));
 
-    cout << "TalphaL: " << TalphaL << endl;
-    cout << "TalphaR: " << TalphaR << endl;
+//    cout << "TalphaL: " << TalphaL << endl;
+//    cout << "TalphaR: " << TalphaR << endl;
 
     float meanRG = 0.0F;
     float meanYB = 0.0F;
@@ -56,7 +56,7 @@ float Uicm::calculate(Mat img, float alphaL, float alphaR) {
         count++;
     }
     meanRG /= (float) (K - TalphaL - TalphaR);
-    cout << "meanRG: " << meanRG << endl;
+//    cout << "meanRG: " << meanRG << endl;
 
     count = 0;
     for (std::list<int>::iterator it = ybList.begin(); it != ybList.end(); ++it) {
@@ -66,7 +66,7 @@ float Uicm::calculate(Mat img, float alphaL, float alphaR) {
         count++;
     }
     meanYB /= (float) (K - TalphaL - TalphaR);
-    cout << "meanYB: " << meanYB << endl;
+//    cout << "meanYB: " << meanYB << endl;
 
 
     //calculate the variance
@@ -78,14 +78,16 @@ float Uicm::calculate(Mat img, float alphaL, float alphaR) {
         varianceRG += pow(*it - meanRG, 2);
     }
     varianceRG /= K;
-    cout << "Variance RG: " << varianceRG << endl;
+//    cout << "Variance RG: " << varianceRG << endl;
 
     for (std::list<int>::iterator it = ybList.begin(); it != ybList.end(); ++it) {
         varianceYB += pow(*it - meanYB, 2);
     }
     varianceYB /= K;
-    cout << "Variance YB: " << varianceYB << endl;
+//    cout << "Variance YB: " << varianceYB << endl;
 
     //calculate UICM
-    return (-0.0268 * sqrt(pow(meanRG, 2) + pow(meanYB, 2)) + 0.1586 * sqrt(varianceRG + varianceYB));
+    float result = -0.0268 * sqrt(pow(meanRG, 2) + pow(meanYB, 2)) + 0.1586 * sqrt(varianceRG + varianceYB);
+    cout << "UICM: " << result << endl;
+    return result;
 }
