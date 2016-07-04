@@ -59,7 +59,9 @@ doc/html/
 # NetBeans project files
 nbproject/
 
-# Image files from paper
+# Image files 
 img/UISM/
 img/UICM/
 img/paper/
+img/unitestimages/
+
