@@ -1,4 +1,4 @@
-# UIQM
+# Underwater Image Quality Measure (UIQM)
 ## General information about the project
 This repository belongs to the project Underwater Image Understanding at the University of Bielefeld in summer term 2016 (SS2016_392167).
 
