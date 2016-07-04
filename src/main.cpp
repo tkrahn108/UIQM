@@ -9,6 +9,10 @@
 //boundaries for calculation of the means in the UICM term
 #define ALPHAR 0.1F
 #define ALPHAL 0.1F
+//parameters for the final calculation
+#define C1 0.0282F
+#define C2 0.2953F
+#define C3 3.5753F
 
 using namespace cv;
 using namespace std;
@@ -55,9 +59,9 @@ int main(int argc, char** argv) {
                 } else {
                     printf("Successfully loaded image:  %s \n", imgPath.c_str());
                     float sum = 0;
-                    sum += uicm.calculate(image, ALPHAL, ALPHAR);
-                    sum += uism.calculate(image);
-                    sum += uiconm.calculate(image);
+                    sum += C1 * uicm.calculate(image, ALPHAL, ALPHAR);
+                    sum += C2 * uism.calculate(image);
+                    sum += C3 * uiconm.calculate(image);
                     cout << "The value for image " <<  imgPath.c_str() << " is " << sum << endl << endl;
                     
                 }
