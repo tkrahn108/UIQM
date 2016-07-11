@@ -38,6 +38,7 @@ float Uism::calculate(Mat img) {
     //output image depth
     int ddepth = CV_16S;
 
+    // eventuell statt addWeighted: sqrt(x^2 + y^2)
     //Gradient X for r-channel
     Sobel(rChannelImg, grad_x, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_x, abs_grad_x);
@@ -65,18 +66,26 @@ float Uism::calculate(Mat img) {
     //grayscale edge maps which results from multiplication with the original image
     Mat rGrayscaleEdge, gGrayscaleEdge, bGrayscaleEdge;
 
+    // sobel konvertieren zu double und auf [0,1] normieren, original konvertieren zu double, dann 'rechnen', dann in uint8 konvertieren.
+
+    double minVal = 0;
+    double maxVal = 0;
+    minMaxLoc(rSobelImg, &minVal, &maxVal);
+    cout << minVal << " " << maxVal << endl;
+
     //i don't think that this multiplication is correct?!
     rGrayscaleEdge = rChannelImg.mul(rSobelImg);
     gGrayscaleEdge = gChannelImg.mul(gSobelImg);
     bGrayscaleEdge = bChannelImg.mul(bSobelImg);
 
-//    namedWindow("TestR", WINDOW_NORMAL);
-//    imshow("TestR", rGrayscaleEdge);
-//    namedWindow("TestG", WINDOW_NORMAL);
-//    imshow("TestG", gGrayscaleEdge);
-//    namedWindow("TestB", WINDOW_NORMAL);
-//    imshow("TestB", bGrayscaleEdge);
-//    waitKey(0);
+   // eventuell hier noch mal merge
+   namedWindow("TestR", WINDOW_NORMAL);
+   imshow("TestR", rGrayscaleEdge);
+   namedWindow("TestG", WINDOW_NORMAL);
+   imshow("TestG", gGrayscaleEdge);
+   namedWindow("TestB", WINDOW_NORMAL);
+   imshow("TestB", bGrayscaleEdge);
+   waitKey(0);
 
     //EME ...
     int k1 = img.rows / BLOCKSIZE;
