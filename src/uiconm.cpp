@@ -32,8 +32,8 @@ float Uiconm::calculate(Mat img) {
         for (int j = 1; j <= k2; j++) {
             findMinMaxIntensity(img, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
             if (!(min == 0 && max == 0)) {
-                tempResult = plipSubtraction((float) max, (float) min) / plipAddition((float) max, (float) min);
-                result += tempResult + log(tempResult);
+                tempResult = plipSubtraction((float) plipG(max), (float) plipG(min)) / plipAddition((float) plipG(max), (float) plipG(min));
+                result += tempResult * log(tempResult);
             }
         }
     }
