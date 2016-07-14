@@ -19,7 +19,6 @@ using namespace cv;
 float Uism::calculate(Mat img) {
     //split original image in its three channels
     Mat rChannelImg, gChannelImg, bChannelImg;
-
     vector<Mat> channels(3);
     split(img, channels);
 
@@ -46,6 +45,17 @@ float Uism::calculate(Mat img) {
     Sobel(rChannelImg, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_y, abs_grad_y);
     addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, rSobelImg);
+    //    rSobelImg = sqrt(abs_grad_x * abs_grad_x + abs_grad_y * abs_grad_y);
+
+    //    namedWindow("GradY", WINDOW_NORMAL);
+    //    imshow("GradY", abs_grad_y);
+    //    namedWindow("GradX", WINDOW_NORMAL);
+    //    imshow("GradX", abs_grad_x);
+    //    namedWindow("rSobel", WINDOW_NORMAL);
+    //    imshow("rSobel", rSobelImg);
+    //    waitKey(0);
+
+
 
     //Gradient X for g-channel
     Sobel(gChannelImg, grad_x, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
@@ -65,27 +75,100 @@ float Uism::calculate(Mat img) {
 
     //grayscale edge maps which results from multiplication with the original image
     Mat rGrayscaleEdge, gGrayscaleEdge, bGrayscaleEdge;
-
     // sobel konvertieren zu double und auf [0,1] normieren, original konvertieren zu double, dann 'rechnen', dann in uint8 konvertieren.
 
+    //     cout << "rChannelImage before Conversion: " << endl;
+    //    for (int i = 0; i < 20; i++) {
+    //        for (int j = 0; j < 20; j++) {
+    //            Scalar intensity = rChannelImg.at<uchar>(j, i);
+    //            cout << intensity.val[0] << "\t";
+    //        }
+    //        cout << endl;
+    //    }
+    //
+    //    
     double minVal = 0;
     double maxVal = 0;
-    minMaxLoc(rSobelImg, &minVal, &maxVal);
-    cout << minVal << " " << maxVal << endl;
+    //    minMaxLoc(rSobelImg, &minVal, &maxVal);
+    //    cout << "Values before Conversion: " << minVal << ", " << maxVal << endl;
+    //    
+    //    cout << "rSobelImage before Conversion: " << endl;
+    //    for (int i = 0; i < 20; i++) {
+    //        for (int j = 0; j < 20; j++) {
+    //            Scalar intensity = rSobelImg.at<uchar>(j, i);
+    //            cout << intensity.val[0] << "\t";
+    //        }
+    //        cout << endl;
+    //    }
 
-    //i don't think that this multiplication is correct?!
+
+    rChannelImg.convertTo(rChannelImg, CV_32F);
+    rSobelImg.convertTo(rSobelImg, CV_32F);
+    gChannelImg.convertTo(gChannelImg, CV_32F);
+    gSobelImg.convertTo(gSobelImg, CV_32F);
+    bChannelImg.convertTo(bChannelImg, CV_32F);
+    bSobelImg.convertTo(bSobelImg, CV_32F);
+
+    //    minMaxLoc(rSobelImg, &minVal, &maxVal);
+    //    cout << "Values after Conversion: " << minVal << ", " << maxVal << endl;
+    //
+    //    
+    //    cout << "rChannelImage: " << endl;
+    //    for (int i = 0; i < 20; i++) {
+    //        for (int j = 0; j < 20; j++) {
+    //            Scalar intensity = rChannelImg.at<float>(j, i);
+    //            cout << intensity.val[0] << "\t";
+    //        }
+    //        cout << endl;
+    //    }
+    //
+    //    cout << "rSobelImage: " << endl;
+    //    for (int i = 0; i < 20; i++) {
+    //        for (int j = 0; j < 20; j++) {
+    //            Scalar intensity = rSobelImg.at<float>(j, i);
+    //            cout << intensity.val[0] << "\t";
+    //        }
+    //        cout << endl;
+    //    }
+
     rGrayscaleEdge = rChannelImg.mul(rSobelImg);
     gGrayscaleEdge = gChannelImg.mul(gSobelImg);
     bGrayscaleEdge = bChannelImg.mul(bSobelImg);
 
-   // eventuell hier noch mal merge
-   namedWindow("TestR", WINDOW_NORMAL);
-   imshow("TestR", rGrayscaleEdge);
-   namedWindow("TestG", WINDOW_NORMAL);
-   imshow("TestG", gGrayscaleEdge);
-   namedWindow("TestB", WINDOW_NORMAL);
-   imshow("TestB", bGrayscaleEdge);
-   waitKey(0);
+    //    cout << "rGrayscaleEdge: " << endl;
+    //    for (int i = 0; i < 20; i++) {
+    //        for (int j = 0; j < 20; j++) {
+    //            Scalar intensity = rGrayscaleEdge.at<float>(j, i);
+    //            cout << intensity.val[0] << "\t";
+    //        }
+    //        cout << endl;
+    //    }
+    //    
+
+    minMaxLoc(rGrayscaleEdge, &minVal, &maxVal);
+    rGrayscaleEdge.convertTo(rGrayscaleEdge, CV_8U, 255.0 / (maxVal - minVal), -minVal);
+    minMaxLoc(gGrayscaleEdge, &minVal, &maxVal);
+    gGrayscaleEdge.convertTo(gGrayscaleEdge, CV_8U, 255.0 / (maxVal - minVal), -minVal);
+    minMaxLoc(bGrayscaleEdge, &minVal, &maxVal);
+    bGrayscaleEdge.convertTo(bGrayscaleEdge, CV_8U, 255.0 / (maxVal - minVal), -minVal);
+
+    //    cout << "rGrayscaleEdge after conversion: " << endl;
+    //    for (int i = 0; i < 20; i++) {
+    //        for (int j = 0; j < 20; j++) {
+    //            Scalar intensity = rGrayscaleEdge.at<uchar>(j, i);
+    //            cout << intensity.val[0] << "\t";
+    //        }
+    //        cout << endl;
+    //    }
+
+    // eventuell hier noch mal merge
+//        namedWindow("RGrayscaleEdge", WINDOW_NORMAL);
+//        imshow("RGrayscaleEdge", rGrayscaleEdge);
+//       namedWindow("TestG", WINDOW_NORMAL);
+//       imshow("TestG", gGrayscaleEdge);
+//       namedWindow("TestB", WINDOW_NORMAL);
+//       imshow("TestB", bGrayscaleEdge);
+//        waitKey(0);
 
     //EME ...
     int k1 = img.rows / BLOCKSIZE;
@@ -99,32 +182,31 @@ float Uism::calculate(Mat img) {
         for (int j = 1; j <= k2; j++) {
             //... for red-channel
             findMinMax(rGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
-            //which logarithmus function do i have to use? log or log10? What to do if max and/or are zero?
-//            if (min == 0) {
-//                min = 1;
-//            }
-//            if (max == 0) {
-//                max = 1;
-//            }
-            if (!(min == 0 || max == 0))
-            {
-            logarithmusValue = ((double) max) / ((double) min);
-            sumR += log(logarithmusValue);
+            //What to do if max and/or are zero?
+            //            if (min == 0) {
+            //                min = 1;
+            //            }
+            //            if (max == 0) {
+            //                max = 1;
+            //            }
+            if (!(min == 0 || max == 0)) {
+                logarithmusValue = ((double) max) / ((double) min);
+                sumR += log(logarithmusValue);
             }
             //... for green channel
             findMinMax(gGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
-            //which logarithmus function do i have to use? log or log10? What to do if max and/or are zero?
-            if (!(min == 0 || max == 0)){
-            logarithmusValue = ((double) max) / ((double) min);
-            sumG += log(logarithmusValue);
+            // What to do if max and/or are zero?
+            if (!(min == 0 || max == 0)) {
+                logarithmusValue = ((double) max) / ((double) min);
+                sumG += log(logarithmusValue);
             }
-            
+
             //... for blue channel
             findMinMax(bGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
-            //which logarithmus function do i have to use? log or log10? What to do if max and/or are zero?
-            if (!(min == 0 || max == 0)){
-            logarithmusValue = ((double) max) / ((double) min);
-            sumB += log(logarithmusValue);
+            // What to do if max and/or are zero?
+            if (!(min == 0 || max == 0)) {
+                logarithmusValue = ((double) max) / ((double) min);
+                sumB += log(logarithmusValue);
             }
             //            cout << "i: " << i << endl;
             //            cout << "j: " << j << endl;
@@ -137,9 +219,9 @@ float Uism::calculate(Mat img) {
     sumR *= 2.0 / (k1 * k2);
     sumG *= 2.0 / (k1 * k2);
     sumB *= 2.0 / (k1 * k2);
-//    cout << "sumR: " << sumR << endl;
-//    cout << "sumG: " << sumG << endl;
-//    cout << "sumB: " << sumB << endl;
+    //    cout << "sumR: " << sumR << endl;
+    //    cout << "sumG: " << sumG << endl;
+    //    cout << "sumB: " << sumB << endl;
 
     float result = LAMBDA_R * sumR + LAMBDA_G * sumG + LAMBDA_B * sumB;
     cout << "UISM: " << result << endl;
