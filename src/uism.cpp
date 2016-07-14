@@ -165,6 +165,17 @@ float Uism::calculate(Mat img) {
     //    }
 
     // eventuell hier noch mal merge
+//    vector<Mat> channelsMerge;
+//    channelsMerge.push_back(bGrayscaleEdge);
+//    channelsMerge.push_back(gGrayscaleEdge);
+//    channelsMerge.push_back(rGrayscaleEdge);
+//    
+//    Mat mergedImg;
+//    merge(channelsMerge, mergedImg);
+//    
+//    namedWindow("Merge", WINDOW_NORMAL);
+//    imshow("Merge", mergedImg);
+//    waitKey(0);
     //        namedWindow("RGrayscaleEdge", WINDOW_NORMAL);
     //        imshow("RGrayscaleEdge", rGrayscaleEdge);
     //       namedWindow("TestG", WINDOW_NORMAL);
