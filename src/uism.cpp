@@ -1,4 +1,5 @@
 #include "uism.h"
+#include "stdio.h"
 #include <opencv2/opencv.hpp>
 
 using namespace std;
@@ -37,15 +38,16 @@ float Uism::calculate(Mat img) {
     //output image depth
     int ddepth = CV_16S;
 
-    // eventuell statt addWeighted: sqrt(x^2 + y^2)
     //Gradient X for r-channel
     Sobel(rChannelImg, grad_x, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_x, abs_grad_x);
     //Gradient Y for r-channel
     Sobel(rChannelImg, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_y, abs_grad_y);
-    addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, rSobelImg);
-    //    rSobelImg = sqrt(abs_grad_x * abs_grad_x + abs_grad_y * abs_grad_y);
+    abs_grad_x.convertTo(abs_grad_x, CV_32F);
+    abs_grad_y.convertTo(abs_grad_y, CV_32F);
+    //magnitude = sqrt(abs_grad_x^2 + abs_grad_y^2);
+    magnitude(abs_grad_x, abs_grad_y, rSobelImg);
 
     //    namedWindow("GradY", WINDOW_NORMAL);
     //    imshow("GradY", abs_grad_y);
@@ -63,7 +65,9 @@ float Uism::calculate(Mat img) {
     //Gradient Y for r-channel
     Sobel(gChannelImg, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_y, abs_grad_y);
-    addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, gSobelImg);
+    abs_grad_x.convertTo(abs_grad_x, CV_32F);
+    abs_grad_y.convertTo(abs_grad_y, CV_32F);
+    magnitude(abs_grad_x, abs_grad_y, gSobelImg);
 
     //Gradient X for b-channel
     Sobel(bChannelImg, grad_x, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
@@ -71,7 +75,9 @@ float Uism::calculate(Mat img) {
     //Gradient Y for r-channel
     Sobel(bChannelImg, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_y, abs_grad_y);
-    addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, bSobelImg);
+    abs_grad_x.convertTo(abs_grad_x, CV_32F);
+    abs_grad_y.convertTo(abs_grad_y, CV_32F);
+    magnitude(abs_grad_x, abs_grad_y, bSobelImg);
 
     //grayscale edge maps which results from multiplication with the original image
     Mat rGrayscaleEdge, gGrayscaleEdge, bGrayscaleEdge;
@@ -103,11 +109,8 @@ float Uism::calculate(Mat img) {
 
 
     rChannelImg.convertTo(rChannelImg, CV_32F);
-    rSobelImg.convertTo(rSobelImg, CV_32F);
     gChannelImg.convertTo(gChannelImg, CV_32F);
-    gSobelImg.convertTo(gSobelImg, CV_32F);
     bChannelImg.convertTo(bChannelImg, CV_32F);
-    bSobelImg.convertTo(bSobelImg, CV_32F);
 
     //    minMaxLoc(rSobelImg, &minVal, &maxVal);
     //    cout << "Values after Conversion: " << minVal << ", " << maxVal << endl;
@@ -162,13 +165,13 @@ float Uism::calculate(Mat img) {
     //    }
 
     // eventuell hier noch mal merge
-//        namedWindow("RGrayscaleEdge", WINDOW_NORMAL);
-//        imshow("RGrayscaleEdge", rGrayscaleEdge);
-//       namedWindow("TestG", WINDOW_NORMAL);
-//       imshow("TestG", gGrayscaleEdge);
-//       namedWindow("TestB", WINDOW_NORMAL);
-//       imshow("TestB", bGrayscaleEdge);
-//        waitKey(0);
+    //        namedWindow("RGrayscaleEdge", WINDOW_NORMAL);
+    //        imshow("RGrayscaleEdge", rGrayscaleEdge);
+    //       namedWindow("TestG", WINDOW_NORMAL);
+    //       imshow("TestG", gGrayscaleEdge);
+    //       namedWindow("TestB", WINDOW_NORMAL);
+    //       imshow("TestB", bGrayscaleEdge);
+    //        waitKey(0);
 
     //EME ...
     int k1 = img.rows / BLOCKSIZE;
