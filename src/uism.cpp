@@ -9,6 +9,9 @@ using namespace cv;
 #define LAMBDA_R 0.299F
 #define LAMBDA_G 0.587F
 #define LAMBDA_B 0.114F
+//#define LAMBDA_R 0.33F
+//#define LAMBDA_G 0.33F
+//#define LAMBDA_B 0.33F
 //height and width for each quadratic block
 #define BLOCKSIZE 4
 
@@ -62,7 +65,7 @@ float Uism::calculate(Mat img) {
     //Gradient X for g-channel
     Sobel(gChannelImg, grad_x, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_x, abs_grad_x);
-    //Gradient Y for r-channel
+    //Gradient Y for g-channel
     Sobel(gChannelImg, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_y, abs_grad_y);
     abs_grad_x.convertTo(abs_grad_x, CV_32F);
@@ -72,7 +75,7 @@ float Uism::calculate(Mat img) {
     //Gradient X for b-channel
     Sobel(bChannelImg, grad_x, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_x, abs_grad_x);
-    //Gradient Y for r-channel
+    //Gradient Y for b-channel
     Sobel(bChannelImg, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT);
     convertScaleAbs(grad_y, abs_grad_y);
     abs_grad_x.convertTo(abs_grad_x, CV_32F);

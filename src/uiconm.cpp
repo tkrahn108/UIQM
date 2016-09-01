@@ -31,14 +31,19 @@ float Uiconm::calculate(Mat img) {
     for (int i = 1; i <= k1; i++) {
         for (int j = 1; j <= k2; j++) {
             findMinMaxIntensity(img, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
-            if (!(min == 0 && max == 0)) {
-                tempResult = plipSubtraction((float) plipG(max), (float) plipG(min)) / plipAddition((float) plipG(max), (float) plipG(min));
-                result += tempResult * log(tempResult);
+            if (!(min == 0)) {
+                tempResult = plipSubtraction(plipG(max), plipG(min)) / plipAddition(plipG(max), plipG(min));
+//                cout << "Temp result: " << tempResult << endl;
+                result += tempResult * log(fabs(tempResult));
+//                cout << "Result: " << result << endl << endl ;
             }
         }
     }
     float c = 1 / ((float) k1 * (float) k2);
-    result = plipMultiplication(c, result);
+    cout << "c: " << c << endl;
+    cout << "result before multiplication: " << result << endl;
+    cout << "result plipG: " << plipG(result) << endl;
+    result = plipMultiplication(c, plipG(result));
     cout << "UIConM: " << result << endl;
     return result;
 }
