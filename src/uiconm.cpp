@@ -6,10 +6,10 @@ using namespace std;
 using namespace cv;
 
 //PLIP parameters
-#define PLIP_MU 1026.0F
-#define PLIP_GAMMA 1026.0F
-#define PLIP_K 1026.0F
-#define PLIP_LAMBDA 1026.0F
+#define PLIP_MU 255.0F
+#define PLIP_GAMMA 255.0F
+#define PLIP_K 255.0F
+#define PLIP_LAMBDA 255.0F
 
 //height and width for each quadratic block
 #define BLOCKSIZE 4
@@ -19,32 +19,44 @@ using namespace cv;
  * @param img Image for which the value should be calculated
  * @return UIConM value
  */
-float Uiconm::calculate(Mat img) {
-    float result = 0.0F;
-    float tempResult = 0.0F;
+double Uiconm::calculate(Mat img) {
+    double result = 0.0;
+    double tempResult = 0.0;
 
     int k1 = img.rows / BLOCKSIZE;
     int k2 = img.cols / BLOCKSIZE;
+    cout << "k1: " << k1 << endl;
+    cout << "k2: " << k2 << endl;
+//    double omin, omax;
+//    minMaxLoc(img, &omin, &omax);
+
+//    cout << "overallMin: " << omin << endl;
+//    cout << "overallMax: " << omax << endl;
 
     int min, max;
 
     for (int i = 1; i <= k1; i++) {
         for (int j = 1; j <= k2; j++) {
             findMinMaxIntensity(img, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
-            if (!(min == 0)) {
-                tempResult = plipSubtraction(plipG(max), plipG(min)) / plipAddition(plipG(max), plipG(min));
-//                cout << "Temp result: " << tempResult << endl;
+//            cout << "min: " << min << endl;
+//            cout << "max: " << max << endl;
+            if (!(min == max)) {
+                double subtraction = plipSubtraction(plipG(max), plipG(min));
+                double addition = plipAddition(plipG(max), plipG(min));
+                tempResult = subtraction / addition;
+//                tempResult = plipSubtraction(plipG(max), plipG(min)) / plipAddition(plipG(max), plipG(min));
+//                cout << min << ", " << max << ", " << subtraction << ", " << addition << ", " << tempResult << ", " << fabs(tempResult)  << endl;
                 result += tempResult * log(fabs(tempResult));
-//                cout << "Result: " << result << endl << endl ;
-            }
+//                cout << min << ", " << max << ", " << tempResult << ", " << result << endl;
+            } 
         }
     }
-    float c = 1 / ((float) k1 * (float) k2);
-    cout << "c: " << c << endl;
-    cout << "result before multiplication: " << result << endl;
-    cout << "result plipG: " << plipG(result) << endl;
+    double c = 1 / ((double) k1 * (double) k2);
+        cout << "c: " << c << endl;
+//        cout << "result before multiplication: " << result << endl;
+        cout << "result plipG: " << plipG(result) << endl;
     result = plipMultiplication(c, plipG(result));
-    cout << "UIConM: " << result << endl;
+        cout << "UIConM: " << result << endl;
     return result;
 }
 
@@ -53,7 +65,7 @@ float Uiconm::calculate(Mat img) {
  * @param intensity Original image intensity
  * @return PLIP modified intensity value
  */
-float Uiconm::plipG(float intensity) {
+double Uiconm::plipG(double intensity) {
     return (PLIP_MU - intensity);
 }
 
@@ -63,7 +75,7 @@ float Uiconm::plipG(float intensity) {
  * @param g2 Gray tone function 2
  * @return PLIP modified sum
  */
-float Uiconm::plipAddition(float g1, float g2) {
+double Uiconm::plipAddition(double g1, double g2) {
     return (g1 + g2 - (g1 * g2) / PLIP_GAMMA);
 }
 
@@ -73,7 +85,7 @@ float Uiconm::plipAddition(float g1, float g2) {
  * @param g2 Gray tone function 2
  * @return PLIP modified difference
  */
-float Uiconm::plipSubtraction(float g1, float g2) {
+double Uiconm::plipSubtraction(double g1, double g2) {
     return (PLIP_K * (g1 - g2) / (PLIP_K - g2));
 }
 
@@ -83,7 +95,7 @@ float Uiconm::plipSubtraction(float g1, float g2) {
  * @param g2 Gray tone function 2
  * @return PLIP modified multiplication 
  */
-float Uiconm::plipMultiplication(float c, float g) {
+double Uiconm::plipMultiplication(double c, double g) {
     return (PLIP_GAMMA - PLIP_GAMMA * pow(1 - g / PLIP_GAMMA, c));
 }
 
@@ -105,13 +117,17 @@ void Uiconm::findMinMaxIntensity(Mat img, int xmin, int xmax, int ymin, int ymax
     int tempMax = 0;
     int tempMin = INT_MAX;
     int tempValue = 0;
-    Scalar intensity;
+    Vec3b intensity;
 
     for (int i = xmin; i <= xmax; i++) {
         for (int j = ymin; j <= ymax; j++) {
-            intensity = img.at<uchar>(j, i);
+            intensity = img.at<Vec3b>(j, i);
+//            uchar blue = intensity.val[0];
+//            uchar green = intensity.val[1];
+//            uchar red = intensity.val[2];
+//            cout << "Intensity: " << intensity << endl;
             tempValue = intensity.val[0] / 3 + intensity.val[1] / 3 + intensity.val[2] / 3;
-            //            cout << tempValue << ", ";
+//                        cout << tempValue << ", ";
             if (tempValue < tempMin) {
                 tempMin = tempValue;
             }

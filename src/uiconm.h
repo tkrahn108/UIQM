@@ -7,13 +7,13 @@ using namespace cv;
 
 class Uiconm {
 public:
-    float calculate(Mat img);
+    double calculate(Mat img);
 
 private:
-    float plipG(float intensity);
-    float plipAddition(float g1, float g2);
-    float plipSubtraction(float g1, float g2);
-    float plipMultiplication(float c, float g);
+    double plipG(double intensity);
+    double plipAddition(double g1, double g2);
+    double plipSubtraction(double g1, double g2);
+    double plipMultiplication(double c, double g);
     void findMinMaxIntensity(Mat img, int xmin, int xmax, int ymin, int ymax, int& min, int& max);
 };
 

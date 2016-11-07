@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
                     sum += C1 * uicm.calculate(image, ALPHAL, ALPHAR);
                     sum += C2 * uism.calculate(image);
                     sum += C3 * uiconm.calculate(image);
-                    cout << "The value for image " <<  imgPath.c_str() << " is " << sum << endl << endl;
+//                    cout << "The value for image " <<  imgPath.c_str() << " is " << sum << endl << endl;
                     
                 }
             }

@@ -209,6 +209,8 @@ float Uism::calculate(Mat img) {
             if (!(min == 0 || max == 0)) {
                 logarithmusValue = ((double) max) / ((double) min);
                 sumR += log(logarithmusValue);
+            } else {
+                sumR += 1;
             }
             //... for green channel
             findMinMax(gGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
@@ -216,14 +218,17 @@ float Uism::calculate(Mat img) {
             if (!(min == 0 || max == 0)) {
                 logarithmusValue = ((double) max) / ((double) min);
                 sumG += log(logarithmusValue);
+            } else {
+                sumG += 1;
             }
-
             //... for blue channel
             findMinMax(bGrayscaleEdge, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
             // What to do if max and/or are zero?
             if (!(min == 0 || max == 0)) {
                 logarithmusValue = ((double) max) / ((double) min);
                 sumB += log(logarithmusValue);
+            } else {
+                sumB += 1;
             }
             //            cout << "i: " << i << endl;
             //            cout << "j: " << j << endl;
@@ -242,6 +247,7 @@ float Uism::calculate(Mat img) {
 
     float result = LAMBDA_R * sumR + LAMBDA_G * sumG + LAMBDA_B * sumB;
     cout << "UISM: " << result << endl;
+//    cout << result << endl;
     return result;
 }
 
