@@ -58,7 +58,8 @@ double Uiconm::calculate(Mat img) {
 //    cout << "c: " << c << endl;
     //        cout << "result before multiplication: " << result << endl;
 //    cout << "plipG(result): " << plipG(result) << endl;
-    result = plipScalarMultiplication(c, plipG(result));
+    //minus because of negative correlation without it
+    result = -plipScalarMultiplication(c, plipG(result));
     cout << result << endl;
     return result;
 }
