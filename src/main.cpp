@@ -15,8 +15,8 @@
 //#define C3 3.5753F
 //adapted parameters for final calculation (parameters from paper times slope of correlation function)
 #define C1 0.03712812F
-#define C2 0.2181F
-#define C3 0.3206F
+#define C2 0.33345F
+#define C3 -0.34144F
 
 using namespace cv;
 using namespace std;
