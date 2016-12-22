@@ -10,9 +10,13 @@
 #define ALPHAR 0.1F
 #define ALPHAL 0.1F
 //parameters for the final calculation
-#define C1 0.0282F
-#define C2 0.2953F
-#define C3 3.5753F
+//#define C1 0.0282F
+//#define C2 0.2953F
+//#define C3 3.5753F
+//adapted parameters for final calculation (parameters from paper times slope of correlation function)
+#define C1 0.03712812F
+#define C2 0.2181F
+#define C3 0.3206F
 
 using namespace cv;
 using namespace std;
@@ -42,7 +46,7 @@ int main(int argc, char** argv) {
     DIR *dir;
     struct dirent *ent;
 
-//    printf("Image path: %s\n", argv[1]);
+    printf("Image path: %s\n", argv[1]);
     if ((dir = opendir(argv[1])) != NULL) {
         string imgDir = argv[1];
         if (!hasEnding(imgDir, "/")) imgDir += "/";
@@ -57,12 +61,12 @@ int main(int argc, char** argv) {
                 if (!image.data) {
                     printf("No image data in file %s \n", imgPath.c_str());
                 } else {
-//                    printf("Successfully loaded image:  %s \n", imgPath.c_str());
+                    printf("Successfully loaded image:  %s \n", imgPath.c_str());
                     float sum = 0;
                     sum += C1 * uicm.calculate(image, ALPHAL, ALPHAR);
                     sum += C2 * uism.calculate(image);
                     sum += C3 * uiconm.calculate(image);
-//                    cout << "The value for image " <<  imgPath.c_str() << " is " << sum << endl << endl;
+                    cout << "The UIQM value for image " <<  imgPath.c_str() << " is " << sum << endl << endl;
                     
                 }
             }

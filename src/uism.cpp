@@ -246,7 +246,7 @@ float Uism::calculate(Mat img) {
     //    cout << "sumB: " << sumB << endl;
 
     float result = LAMBDA_R * sumR + LAMBDA_G * sumG + LAMBDA_B * sumB;
-//    cout << "UISM: " << result << endl;
+    cout << "UISM: " << result << endl;
 //    cout << result << endl;
     return result;
 }
