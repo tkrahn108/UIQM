@@ -6,10 +6,10 @@ using namespace std;
 using namespace cv;
 
 //PLIP parameters
-#define PLIP_MU 255.0F
-#define PLIP_GAMMA 255.0F
-#define PLIP_K 255.0F
-#define PLIP_LAMBDA 255.0F
+#define PLIP_MU 1026.0F
+#define PLIP_GAMMA 1026.0F
+#define PLIP_K 1026.0F
+#define PLIP_LAMBDA 1026.0F
 #define PLIP_BETA 1.0F
 
 //height and width for each quadratic block
@@ -26,8 +26,8 @@ double Uiconm::calculate(Mat img) {
 
     int k1 = img.rows / BLOCKSIZE;
     int k2 = img.cols / BLOCKSIZE;
-    cout << "k1: " << k1 << endl;
-    cout << "k2: " << k2 << endl;
+//    cout << "k1: " << k1 << endl;
+//    cout << "k2: " << k2 << endl;
     //    double omin, omax;
     //    minMaxLoc(img, &omin, &omax);
 
@@ -55,11 +55,11 @@ double Uiconm::calculate(Mat img) {
         }
     }
     double c = 1 / ((double) k1 * (double) k2);
-    cout << "c: " << c << endl;
+//    cout << "c: " << c << endl;
     //        cout << "result before multiplication: " << result << endl;
-    cout << "plipG(result): " << plipG(result) << endl;
+//    cout << "plipG(result): " << plipG(result) << endl;
     result = plipScalarMultiplication(c, plipG(result));
-    cout << "UIConM: " << result << endl;
+    cout << result << endl;
     return result;
 }
 

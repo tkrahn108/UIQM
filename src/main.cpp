@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     DIR *dir;
     struct dirent *ent;
 
-    printf("Image path: %s\n", argv[1]);
+//    printf("Image path: %s\n", argv[1]);
     if ((dir = opendir(argv[1])) != NULL) {
         string imgDir = argv[1];
         if (!hasEnding(imgDir, "/")) imgDir += "/";
@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
                 if (!image.data) {
                     printf("No image data in file %s \n", imgPath.c_str());
                 } else {
-                    printf("Successfully loaded image:  %s \n", imgPath.c_str());
+//                    printf("Successfully loaded image:  %s \n", imgPath.c_str());
                     float sum = 0;
                     sum += C1 * uicm.calculate(image, ALPHAL, ALPHAR);
                     sum += C2 * uism.calculate(image);
