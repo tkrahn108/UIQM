@@ -10,6 +10,7 @@ using namespace cv;
 #define PLIP_GAMMA 255.0F
 #define PLIP_K 255.0F
 #define PLIP_LAMBDA 255.0F
+#define PLIP_BETA 1.0F
 
 //height and width for each quadratic block
 #define BLOCKSIZE 4
@@ -27,11 +28,11 @@ double Uiconm::calculate(Mat img) {
     int k2 = img.cols / BLOCKSIZE;
     cout << "k1: " << k1 << endl;
     cout << "k2: " << k2 << endl;
-//    double omin, omax;
-//    minMaxLoc(img, &omin, &omax);
+    //    double omin, omax;
+    //    minMaxLoc(img, &omin, &omax);
 
-//    cout << "overallMin: " << omin << endl;
-//    cout << "overallMax: " << omax << endl;
+    //    cout << "overallMin: " << omin << endl;
+    //    cout << "overallMax: " << omax << endl;
 
     int min, max;
 
@@ -44,19 +45,21 @@ double Uiconm::calculate(Mat img) {
                 double subtraction = plipSubtraction(plipG(max), plipG(min));
                 double addition = plipAddition(plipG(max), plipG(min));
                 tempResult = subtraction / addition;
-//                tempResult = plipSubtraction(plipG(max), plipG(min)) / plipAddition(plipG(max), plipG(min));
-//                cout << min << ", " << max << ", " << subtraction << ", " << addition << ", " << tempResult << ", " << fabs(tempResult)  << endl;
-                result += tempResult * log(fabs(tempResult));
-//                cout << min << ", " << max << ", " << tempResult << ", " << result << endl;
-            } 
+//                cout << "subtraction: " << subtraction << endl;
+//                cout << "addition: " << addition << endl;
+//                cout << "tempResult: " << tempResult << endl; 
+//                cout << "log(fabs(tempResult)): " << log(fabs(tempResult)) << endl;
+//                cout << "plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult))))" << plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult)))) << endl << endl; 
+                result += plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult))));      
+            }
         }
     }
     double c = 1 / ((double) k1 * (double) k2);
-        cout << "c: " << c << endl;
-//        cout << "result before multiplication: " << result << endl;
-        cout << "result plipG: " << plipG(result) << endl;
-    result = plipMultiplication(c, plipG(result));
-        cout << "UIConM: " << result << endl;
+    cout << "c: " << c << endl;
+    //        cout << "result before multiplication: " << result << endl;
+    cout << "plipG(result): " << plipG(result) << endl;
+    result = plipScalarMultiplication(c, plipG(result));
+    cout << "UIConM: " << result << endl;
     return result;
 }
 
@@ -95,8 +98,24 @@ double Uiconm::plipSubtraction(double g1, double g2) {
  * @param g2 Gray tone function 2
  * @return PLIP modified multiplication 
  */
-double Uiconm::plipMultiplication(double c, double g) {
+double Uiconm::plipScalarMultiplication(double c, double g) {
     return (PLIP_GAMMA - PLIP_GAMMA * pow(1 - g / PLIP_GAMMA, c));
+}
+
+double Uiconm::plipMultiplication(double g1, double g2){
+    return plipPhiInverse(plipPhi(plipG(g1)) * plipPhi(plipG(g2)));
+}
+
+double Uiconm::plipPhi(double g){
+    double result = 0.0;
+    result = -PLIP_LAMBDA * pow(log(1 - g/PLIP_LAMBDA), PLIP_BETA); 
+    return result;
+}
+
+double Uiconm::plipPhiInverse(double g){
+    double result = 0.0;
+    result = PLIP_LAMBDA * (1 - pow(exp(-g/PLIP_LAMBDA),1/PLIP_BETA));
+    return result;
 }
 
 /**
@@ -122,12 +141,12 @@ void Uiconm::findMinMaxIntensity(Mat img, int xmin, int xmax, int ymin, int ymax
     for (int i = xmin; i <= xmax; i++) {
         for (int j = ymin; j <= ymax; j++) {
             intensity = img.at<Vec3b>(j, i);
-//            uchar blue = intensity.val[0];
-//            uchar green = intensity.val[1];
-//            uchar red = intensity.val[2];
-//            cout << "Intensity: " << intensity << endl;
+            //            uchar blue = intensity.val[0];
+            //            uchar green = intensity.val[1];
+            //            uchar red = intensity.val[2];
+            //            cout << "Intensity: " << intensity << endl;
             tempValue = intensity.val[0] / 3 + intensity.val[1] / 3 + intensity.val[2] / 3;
-//                        cout << tempValue << ", ";
+            //                        cout << tempValue << ", ";
             if (tempValue < tempMin) {
                 tempMin = tempValue;
             }
