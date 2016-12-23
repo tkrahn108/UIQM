@@ -1,0 +1,39 @@
+{
+   "nodes": [
+      {
+         "id": 0,
+         "repo": "IO",
+         "name": "Read",
+         "template": ["CVMat"],
+	 "inputs": [
+            {
+               "id": 0,
+               "type": "String",
+               "value": "./1.png"
+            }
+         ]
+      },
+      {
+         "id": 1,
+         "repo": "Image",
+         "name": "UICM"
+      },
+      {
+         "id": 2,
+         "repo": "Assert",
+         "name": "Equals",
+	 "template": ["Double"],
+         "inputs": [
+            {
+               "id": 0,
+               "type": "Double",
+               "value": 0.1
+            }
+         ]
+      }
+   ],
+   "connections": [
+      {"src": 0, "src_pin": 0, "dst": 1, "dst_pin": 0},
+      {"src": 1, "src_pin": 0, "dst": 2, "dst_pin": 1}
+   ]
+}

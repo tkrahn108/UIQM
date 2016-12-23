@@ -1,0 +1,24 @@
+{
+	"description": "Calculate the underwater image sharpness measure.",
+	"description_short": "Calculate the UISM.",
+	"inputs": [
+		{
+			"description": "The input image.",
+			"type": "CVMat"
+		},
+		{
+			"description": "The size (number of pixel) per block.",
+			"default": 4,
+			"type": "Int",
+			"optional": true
+		}
+	],
+	"name": "UISM",
+	"outputs": [
+		{
+			"description": "The UISM value.",
+			"type": "Double"
+		}
+	],
+	"repo": "Image"
+}

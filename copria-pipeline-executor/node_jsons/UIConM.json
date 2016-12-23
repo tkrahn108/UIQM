@@ -1,0 +1,54 @@
+{
+	"description": "Calculate the underwater image contrast measure (UIConM)",
+	"description_short": "Calculate the UIConM value",
+	"inputs": [
+		{
+			"description": "The input image.",
+			"type": "CVMat"
+		},
+		{
+			"description": "The size (number of pixel) per block.",
+			"default": 4,
+			"type": "Int",
+			"optional": true
+		},
+		{
+			"description": "PLIP parameter mu.",
+			"default": 1026.0,
+			"type": "Float",
+			"optional": true
+		},
+		{
+			"description": "PLIP parameter gamma.",
+			"default": 1026.0,
+			"type": "Float",
+			"optional": true
+		},
+		{
+			"description": "PLIP parameter k.",
+			"default": 1026.0,
+			"type": "Float",
+			"optional": true
+		},
+		{
+			"description": "PLIP parameter lamda.",
+			"default": 1026.0,
+			"type": "Float",
+			"optional": true
+		},
+		{
+			"description": "PLIP parameter beta.",
+			"default": 1,
+			"type": "Float",
+			"optional": true
+		}
+	],
+	"name": "UIConM",
+	"outputs": [
+		{
+			"description": "The UIConM value.",
+			"type": "Double"
+		}
+	],
+	"repo": "Image"
+}

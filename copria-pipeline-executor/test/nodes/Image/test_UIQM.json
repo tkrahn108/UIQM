@@ -1,0 +1,109 @@
+{
+   "nodes": [
+      {
+         "id": 0,
+         "repo": "IO",
+         "name": "Read",
+         "template": ["CVMat"],
+	 "inputs": [
+            {
+               "id": 0,
+               "type": "String",
+               "value": "./1.png"
+            }
+         ]
+      },
+      {
+         "id": 1,
+         "repo": "Image",
+         "name": "UICM"
+      },
+      {
+         "id": 2,
+         "repo": "Image",
+         "name": "UISM"
+      },
+      {
+         "id": 3,
+         "repo": "Image",
+         "name": "UIConM"
+      },
+      {
+         "id": 4,
+         "repo": "Math",
+         "name": "Product",
+	 "template": ["Double"],
+         "inputs": [
+            {
+               "id": 1,
+               "type": "Double",
+               "value": 0.03712812
+            }
+         ]
+      },
+      {
+         "id": 5,
+         "repo": "Math",
+         "name": "Product",
+	 "template": ["Double"],
+         "inputs": [
+            {
+               "id": 1,
+               "type": "Double",
+               "value": 0.33345
+            }
+         ]
+      },
+      {
+         "id": 6,
+         "repo": "Math",
+         "name": "Product",
+	 "template": ["Double"],
+         "inputs": [
+            {
+               "id": 1,
+               "type": "Double",
+               "value": -0.34144
+            }
+         ]
+      },
+      {
+         "id": 7,
+         "repo": "Math",
+         "name": "Sum",
+	 "template": ["Double"]
+      },
+      {
+         "id": 8,
+         "repo": "Math",
+         "name": "Sum",
+	 "template": ["Double"]
+      },
+      {
+         "id": 9,
+         "repo": "IO",
+         "name": "Write",
+	 "template": ["Double"],
+         "inputs": [
+            {
+               "id": 1,
+               "type": "String",
+               "value": "./test"
+            }
+         ]
+      }
+   ],
+   "connections": [
+      {"src": 0, "src_pin": 0, "dst": 1, "dst_pin": 0},
+      {"src": 0, "src_pin": 0, "dst": 2, "dst_pin": 0},
+      {"src": 0, "src_pin": 0, "dst": 3, "dst_pin": 0},
+      {"src": 1, "src_pin": 0, "dst": 4, "dst_pin": 0},
+      {"src": 2, "src_pin": 0, "dst": 5, "dst_pin": 0},
+      {"src": 3, "src_pin": 0, "dst": 6, "dst_pin": 0},
+      {"src": 4, "src_pin": 0, "dst": 7, "dst_pin": 0},
+      {"src": 5, "src_pin": 0, "dst": 7, "dst_pin": 1},
+      {"src": 7, "src_pin": 0, "dst": 8, "dst_pin": 0},
+      {"src": 6, "src_pin": 0, "dst": 8, "dst_pin": 1},
+      {"src": 8, "src_pin": 0, "dst": 9, "dst_pin": 0}
+   ]
+}

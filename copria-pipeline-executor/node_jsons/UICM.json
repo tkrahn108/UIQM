@@ -1,0 +1,30 @@
+{
+	"description": "Calculate the underwater image colorfulness measure (UICM)",
+	"description_short": "Calculate the UICM value",
+	"inputs": [
+		{
+			"description": "The input image.",
+			"type": "CVMat"
+		},
+		{
+			"description": "The alpha_L value (lower bound) for the asymmetric alpha-trimmed mean.",
+			"default": 0.1,
+			"type": "Float",
+			"optional": true
+		},
+		{
+			"description": "The alpha_R value (upper bound) for the asymmetric alpha-trimmed mean.",
+			"default": 0.1,
+			"type": "Float",
+			"optional": true
+		}
+	],
+	"name": "UICM",
+	"outputs": [
+		{
+			"description": "The UICM value.",
+			"type": "Double"
+		}
+	],
+	"repo": "Image"
+}
