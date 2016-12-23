@@ -26,8 +26,8 @@ double Uiconm::calculate(Mat img) {
 
     int k1 = img.rows / BLOCKSIZE;
     int k2 = img.cols / BLOCKSIZE;
-//    cout << "k1: " << k1 << endl;
-//    cout << "k2: " << k2 << endl;
+    //    cout << "k1: " << k1 << endl;
+    //    cout << "k2: " << k2 << endl;
     //    double omin, omax;
     //    minMaxLoc(img, &omin, &omax);
 
@@ -39,25 +39,25 @@ double Uiconm::calculate(Mat img) {
     for (int i = 1; i <= k1; i++) {
         for (int j = 1; j <= k2; j++) {
             findMinMaxIntensity(img, (j - 1) * BLOCKSIZE, j * BLOCKSIZE - 1, (i - 1) * BLOCKSIZE, i * BLOCKSIZE - 1, min, max);
-//            cout << "min: " << min << endl;
-//            cout << "max: " << max << endl;
+            //            cout << "min: " << min << endl;
+            //            cout << "max: " << max << endl;
             if (!(min == max)) {
                 double subtraction = plipSubtraction(plipG(max), plipG(min));
                 double addition = plipAddition(plipG(max), plipG(min));
                 tempResult = subtraction / addition;
-//                cout << "subtraction: " << subtraction << endl;
-//                cout << "addition: " << addition << endl;
-//                cout << "tempResult: " << tempResult << endl; 
-//                cout << "log(fabs(tempResult)): " << log(fabs(tempResult)) << endl;
-//                cout << "plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult))))" << plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult)))) << endl << endl; 
-                result += plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult))));      
+                //                cout << "subtraction: " << subtraction << endl;
+                //                cout << "addition: " << addition << endl;
+                //                cout << "tempResult: " << tempResult << endl; 
+                //                cout << "log(fabs(tempResult)): " << log(fabs(tempResult)) << endl;
+                //                cout << "plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult))))" << plipMultiplication(plipG(tempResult),plipG(log(fabs(tempResult)))) << endl << endl; 
+                result += plipMultiplication(plipG(tempResult), plipG(log(fabs(tempResult))));
             }
         }
     }
     double c = 1 / ((double) k1 * (double) k2);
-//    cout << "c: " << c << endl;
+    //    cout << "c: " << c << endl;
     //        cout << "result before multiplication: " << result << endl;
-//    cout << "plipG(result): " << plipG(result) << endl;
+    //    cout << "plipG(result): " << plipG(result) << endl;
     //minus because of negative correlation without it
     result = plipScalarMultiplication(c, plipG(result));
     cout << "UIConM: " << result << endl;
@@ -103,19 +103,19 @@ double Uiconm::plipScalarMultiplication(double c, double g) {
     return (PLIP_GAMMA - PLIP_GAMMA * pow(1 - g / PLIP_GAMMA, c));
 }
 
-double Uiconm::plipMultiplication(double g1, double g2){
+double Uiconm::plipMultiplication(double g1, double g2) {
     return plipPhiInverse(plipPhi(plipG(g1)) * plipPhi(plipG(g2)));
 }
 
-double Uiconm::plipPhi(double g){
+double Uiconm::plipPhi(double g) {
     double result = 0.0;
-    result = -PLIP_LAMBDA * pow(log(1 - g/PLIP_LAMBDA), PLIP_BETA); 
+    result = -PLIP_LAMBDA * pow(log(1 - g / PLIP_LAMBDA), PLIP_BETA);
     return result;
 }
 
-double Uiconm::plipPhiInverse(double g){
+double Uiconm::plipPhiInverse(double g) {
     double result = 0.0;
-    result = PLIP_LAMBDA * (1 - pow(exp(-g/PLIP_LAMBDA),1/PLIP_BETA));
+    result = PLIP_LAMBDA * (1 - pow(exp(-g / PLIP_LAMBDA), 1 / PLIP_BETA));
     return result;
 }
 

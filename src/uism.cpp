@@ -168,17 +168,17 @@ float Uism::calculate(Mat img) {
     //    }
 
     // eventuell hier noch mal merge
-//    vector<Mat> channelsMerge;
-//    channelsMerge.push_back(bGrayscaleEdge);
-//    channelsMerge.push_back(gGrayscaleEdge);
-//    channelsMerge.push_back(rGrayscaleEdge);
-//    
-//    Mat mergedImg;
-//    merge(channelsMerge, mergedImg);
-//    
-//    namedWindow("Merge", WINDOW_NORMAL);
-//    imshow("Merge", mergedImg);
-//    waitKey(0);
+    //    vector<Mat> channelsMerge;
+    //    channelsMerge.push_back(bGrayscaleEdge);
+    //    channelsMerge.push_back(gGrayscaleEdge);
+    //    channelsMerge.push_back(rGrayscaleEdge);
+    //    
+    //    Mat mergedImg;
+    //    merge(channelsMerge, mergedImg);
+    //    
+    //    namedWindow("Merge", WINDOW_NORMAL);
+    //    imshow("Merge", mergedImg);
+    //    waitKey(0);
     //        namedWindow("RGrayscaleEdge", WINDOW_NORMAL);
     //        imshow("RGrayscaleEdge", rGrayscaleEdge);
     //       namedWindow("TestG", WINDOW_NORMAL);
@@ -247,7 +247,7 @@ float Uism::calculate(Mat img) {
 
     float result = LAMBDA_R * sumR + LAMBDA_G * sumG + LAMBDA_B * sumB;
     cout << "UISM: " << result << endl;
-//    cout << result << endl;
+    //    cout << result << endl;
     return result;
 }
 

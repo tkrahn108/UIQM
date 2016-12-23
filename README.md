@@ -7,7 +7,7 @@ One problem with underwater images is that they are often affected by sediment o
 ## Repository structure
 * /src: All Header and Source Files of the Project
 * /data: Folder for the image sets
-* /doc: Tex-Documentation and Measurements of the project
+* /copria-pipeline-executor: copria nodes and tests/pipelines; the whole pipeline you can find under /copria-pipeline-executor/test/nodes/Image/test_UIQM.json 
 * [/build]: This folder is not contained in the repository but should be created to build the project from there
 * .: The root folder contains the CMake File
 
